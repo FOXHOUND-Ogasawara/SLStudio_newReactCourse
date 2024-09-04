@@ -1,0 +1,52 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* コンテナ */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ナビゲーションメニュー */
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+li {
+  flex: none;
+  /* 各リストアイテムが自動的に幅を取らないようにする */
+  margin-right: 10px;
+  /* リストアイテム間のスペースを確保 */
+}
+
+a {
+  display: inline-block;
+  /* インラインブロック要素として扱う */
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #e0e0e0;
+  background-color: #333;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+  min-width: 100px;
+  /* リンクの最小幅を設定 */
+  text-align: center;
+  /* テキストを中央揃えにする */
+}
+
+a:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+}
