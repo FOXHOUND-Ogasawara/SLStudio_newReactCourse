@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 
 // ChildComponentのプロパティの型を定義
@@ -11,15 +11,17 @@ const ChildComponent = ({ onButtonClick }: ChildComponentProps) => {
 };
 
 function App() {
-  // 元々の書き方
-  // const handleClick = () => {
-  //   alert("クリックされました");
-  // };
+  const [count, setCount] = useState(0);
 
   // useCallbackを使用して関数をメモ化
   const handleClick = useCallback(() => {
-    alert("クリックされました");
-  }, []);
+    setCount(count + 1);
+    alert("クリックされました" + count + "回");
+  }, [count]);
+
+  // const handleClick = () => {
+  //   alert("クリックされました");
+  // };
 
   return (
     <div>
