@@ -24,7 +24,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Link,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useParams,
+} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -100,7 +106,7 @@ const UserManagement = () => {
                 <TableCell>
                   <Button
                     component={Link}
-                    to={"/users"}
+                    to={"/users/" + user.id}
                     variant="contained"
                     color="primary"
                   >
@@ -117,11 +123,12 @@ const UserManagement = () => {
 };
 
 const UserDetail = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users/1")
+    fetch("https://jsonplaceholder.typicode.com/users/" + id)
       .then((response) => response.json())
       .then((data) => {
         setUser(data);
@@ -132,7 +139,7 @@ const UserDetail = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [id]);
 
   if (loading) {
     return (
@@ -272,7 +279,7 @@ function App() {
             <Route path="/user-management" element={<UserManagement />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/users" element={<UserDetail />} />
+            <Route path="/users/:id" element={<UserDetail />} />
           </Routes>
         </Box>
       </Box>
