@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 
 interface Todo {
@@ -32,15 +32,17 @@ function App() {
   };
 
   // fiteredTodosはuseStateではなく通常の変数として定義
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "complete") {
-      return todo.completed;
-    } else if (filter === "incomplete") {
-      return !todo.completed;
-    } else {
-      return true;
-    }
-  });
+  const filteredTodos = useMemo(() => {
+    return todos.filter((todo) => {
+      if (filter === "complete") {
+        return todo.completed;
+      } else if (filter === "incomplete") {
+        return !todo.completed;
+      } else {
+        return true;
+      }
+    });
+  }, [filter, todos]);
 
   return (
     <>
