@@ -23,6 +23,7 @@ import {
   OutlineButton,
   StyledPaper,
 } from "./components/StyledComponents";
+import React, { useState, useEffect } from 'react';
 
 const drawerWidth = 240;
 
@@ -47,6 +48,16 @@ const Question1 = () => (
 );
 
 const Question2 = () => {
+  const [name, setName] = useState('');
+  const [names, setNames] = useState<string[]>([]);
+
+  const handleAddName = () => {
+    if (name) {
+      setNames([...names, name]);
+      setName('');
+    }
+  };
+
   return (
     <>
       <h1>設問2</h1>
@@ -59,40 +70,65 @@ const Question2 = () => {
         component="form"
         sx={{ "& .MuiTextField-root": { m: 1, width: "20ch" } }}
       >
-        <TextField label="名前" name="name" variant="outlined" />
+        <TextField
+          label="名前"
+          name="name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
       </Box>
-      <Button variant="contained" sx={{ m: 1 }}>
+      <Button variant="contained" sx={{ m: 1 }} onClick={handleAddName}>
         追加
       </Button>
       <HorizontalLine />
+      <ul>
+        {names.map((n, index) => (
+          <li key={index}>{n}</li>
+        ))}
+      </ul>
     </>
   );
 };
 
 const CounterComponent = () => {
+  const [count, setCount] = useState(0);
+
+  const handleButtonClick = (num: number) => {
+    setCount(num);
+  };
+
   return (
     <>
       <StyledPaper>
         <Typography variant="h1" component="p" color="primary" gutterBottom>
-          0
+          {count}
         </Typography>
         <Box>
-          <OutlineButton variant="outlined">1</OutlineButton>
-          <OutlineButton variant="outlined">2</OutlineButton>
-          <OutlineButton variant="outlined">3</OutlineButton>
+          {[1, 2, 3].map((num) => (
+            <OutlineButton key={num} variant="outlined" onClick={() => handleButtonClick(num)}>
+              {num}
+            </OutlineButton>
+          ))}
         </Box>
         <Box>
-          <OutlineButton variant="outlined">4</OutlineButton>
-          <OutlineButton variant="outlined">5</OutlineButton>
-          <OutlineButton variant="outlined">6</OutlineButton>
+          {[4, 5, 6].map((num) => (
+            <OutlineButton key={num} variant="outlined" onClick={() => handleButtonClick(num)}>
+              {num}
+            </OutlineButton>
+          ))}
         </Box>
         <Box>
-          <OutlineButton variant="outlined">7</OutlineButton>
-          <OutlineButton variant="outlined">8</OutlineButton>
-          <OutlineButton variant="outlined">9</OutlineButton>
+          {[7, 8, 9].map((num) => (
+            <OutlineButton key={num} variant="outlined" onClick={() => handleButtonClick(num)}>
+              {num}
+            </OutlineButton>
+          ))}
         </Box>
         <Box>
-          <OutlineButton variant="outlined">0</OutlineButton>
+          <OutlineButton variant="outlined" onClick={() => handleButtonClick(0)}>
+            0
+          </OutlineButton>
         </Box>
       </StyledPaper>
     </>
@@ -118,7 +154,21 @@ const Question3 = () => {
   );
 };
 
-function App() {
+const App: React.FC = () => {
+  const [data, setData] = useState<string[]>([]);
+
+  useEffect(() => {
+    // 初期データを取得するための擬似API呼び出し
+    const fetchData = async () => {
+      const result = await new Promise<string[]>((resolve) =>
+        setTimeout(() => resolve(['データ1', 'データ2', 'データ3']), 1000)
+      );
+      setData(result);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Router>
       <Box sx={{ display: "flex" }}>
@@ -167,6 +217,22 @@ function App() {
                 <ListItemText primary="設問1" />
               </ListItemButton>
             </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to="/q2">
+                <ListItemIcon>
+                  <Assignment />
+                </ListItemIcon>
+                <ListItemText primary="設問2" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton component={Link} to="/q3">
+                <ListItemIcon>
+                  <Assignment />
+                </ListItemIcon>
+                <ListItemText primary="設問3" />
+              </ListItemButton>
+            </ListItem>
           </List>
         </Drawer>
         <Box
@@ -176,6 +242,8 @@ function App() {
           <Toolbar />
           <Routes>
             <Route path="/" element={<Question1 />} />
+            <Route path="/q2" element={<Question2 />} />
+            <Route path="/q3" element={<Question3 />} />
           </Routes>
         </Box>
       </Box>
