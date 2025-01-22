@@ -25,7 +25,6 @@ import {
 } from "@mui/material";
 import { Assignment } from "@mui/icons-material";
 import { GradientButton, OutlineButton, StyledPaper } from "./StyledComponents";
-import { useState } from "react";
 
 const drawerWidth = 240;
 
@@ -38,22 +37,11 @@ const Dashboard = () => (
   </>
 );
 
-interface TextCopy {
-  name?: string;
-}
-
-const TextCopyComponent = (props: TextCopy) => {
-  const { name } = props;
-  return (
-    <Typography variant="h5" component="div">
-      {name}
-    </Typography>
-  );
+const TextCopyComponent = () => {
+  return <Typography variant="h5" component="div"></Typography>;
 };
 
 const Exam1 = () => {
-  const [name, setName] = useState<string>();
-
   return (
     <>
       <h1>試験1</h1>
@@ -68,15 +56,7 @@ const Exam1 = () => {
         component="form"
         sx={{ "& .MuiTextField-root": { m: 1, width: "25ch" } }}
       >
-        <TextField
-          label="名前"
-          name="name"
-          variant="outlined"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        />
+        <TextField label="名前" name="name" variant="outlined" />
       </Box>
       <Box>
         <Card sx={{ minWidth: 275 }}>
@@ -87,7 +67,7 @@ const Exam1 = () => {
             >
               この下に出力結果を出そう！
             </Typography>
-            <TextCopyComponent name={name} />
+            <TextCopyComponent />
           </CardContent>
         </Card>
       </Box>
@@ -96,7 +76,6 @@ const Exam1 = () => {
 };
 
 const CounterComponent = () => {
-  const [count, setCount] = useState<number>(0);
   return (
     <>
       <StyledPaper>
@@ -104,23 +83,11 @@ const CounterComponent = () => {
           カウントアップ
         </Typography>
         <Typography variant="h1" component="p" color="primary" gutterBottom>
-          {count}
+          0
         </Typography>
-        <GradientButton
-          variant="contained"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          増やす
-        </GradientButton>
-        <OutlineButton variant="outlined" onClick={() => setCount(() => 0)}>
-          リセット
-        </OutlineButton>
-        <GradientButton
-          variant="contained"
-          onClick={() => setCount((count) => count - 1)}
-        >
-          減らす
-        </GradientButton>
+        <GradientButton variant="contained">増やす</GradientButton>
+        <OutlineButton variant="outlined">リセット</OutlineButton>
+        <GradientButton variant="contained">減らす</GradientButton>
       </StyledPaper>
     </>
   );
@@ -143,24 +110,7 @@ const Exam2 = () => {
   );
 };
 
-interface UserProfile {
-  name: string;
-  email: string;
-}
-
 const Exam3 = () => {
-  const [Users, setUsers] = useState<UserProfile[]>([
-    { name: "山田", email: "yamada@yamada.com" },
-    { name: "鈴木", email: "suzuki@suzuki.com" },
-  ]);
-
-  const handleAddList = () => {
-    const newUser: UserProfile = {
-      name: "斎藤 輝幸",
-      email: "saito@saito.com",
-    };
-    setUsers([...Users, newUser]);
-  };
   return (
     <>
       <h1>試験3</h1>
@@ -172,7 +122,7 @@ const Exam3 = () => {
         現在の表示はJSXにべた書きしているため、Users配列をループして出力しなくてはならない。
       </Typography>
 
-      <GradientButton onClick={handleAddList}>メンバーを追加</GradientButton>
+      <GradientButton>メンバーを追加</GradientButton>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -182,14 +132,14 @@ const Exam3 = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Users.map((user, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                </TableRow>
-              );
-            })}
+            <TableRow key="1">
+              <TableCell>山田</TableCell>
+              <TableCell>yamada@yamada.com</TableCell>
+            </TableRow>
+            <TableRow key="2">
+              <TableCell>鈴木</TableCell>
+              <TableCell>suzuki@suzuki.com</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

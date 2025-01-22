@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   CardContent,
-  CircularProgress,
   CssBaseline,
   Divider,
   Drawer,
@@ -25,14 +24,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import {
-  Link,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useParams,
-} from "react-router-dom";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -45,46 +37,7 @@ const Dashboard = () => (
   </>
 );
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
 const Exam = () => {
-  const [loading, setLoading] = useState(true);
-  const [posts, setPost] = useState<Post[]>([]);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
-      .then((data) => {
-        setPost(data);
-      })
-      .catch((error) => {
-        console.log("投稿の取得に失敗しました:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <>
       <h1>試験</h1>
@@ -123,22 +76,34 @@ const Exam = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {posts.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell>{post.title}</TableCell>
-                <TableCell>{post.userId}</TableCell>
-                <TableCell>
-                  <Button
-                    component={Link}
-                    to={"/posts/" + post.id}
-                    variant="contained"
-                    color="primary"
-                  >
-                    詳細
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            <TableRow key="1">
+              <TableCell>ブログタイトル１</TableCell>
+              <TableCell>1</TableCell>
+              <TableCell>
+                <Button
+                  component={Link}
+                  to={"/posts/"}
+                  variant="contained"
+                  color="primary"
+                >
+                  詳細
+                </Button>
+              </TableCell>
+            </TableRow>
+            <TableRow key="2">
+              <TableCell>ブログタイトル２</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>
+                <Button
+                  component={Link}
+                  to={"/posts/"}
+                  variant="contained"
+                  color="primary"
+                >
+                  詳細
+                </Button>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -147,39 +112,6 @@ const Exam = () => {
 };
 
 const PostDetail = () => {
-  const [post, setPost] = useState<Post>();
-  const [loading, setLoading] = useState(true);
-  const { id } = useParams();
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts/" + id)
-      .then((response) => response.json())
-      .then((data) => {
-        setPost(data);
-      })
-      .catch((error) => {
-        console.log("投稿取得でエラーが発生しました: ", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [id]);
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Box>
       <h1>試験</h1>
@@ -188,7 +120,7 @@ const PostDetail = () => {
           <Typography variant="h6">実装3. 詳細ページの実装</Typography>
           <Typography>
             次のURLからHTTP通信を行い、取得したデータのタイトルと本文を表示せよ。
-            <code>https://jsonplaceholder.typicode.com/post/1</code>
+            <code>https://jsonplaceholder.typicode.com/posts/1</code>
             <br />
             末尾の「１」は実際には前画面から渡された投稿IDを指定すること。
           </Typography>
@@ -198,31 +130,30 @@ const PostDetail = () => {
       <Typography variant="h6" gutterBottom>
         投稿詳細
       </Typography>
-      {post && (
-        <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { m: 1, width: "75ch" },
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <TextField
-            label="タイトル"
-            value={post.title}
-            name="title"
-            variant="outlined"
-          />
-          <TextField
-            label="本文"
-            name="body"
-            value={post.body}
-            variant="outlined"
-            multiline
-            rows={4} // 初期行数を指定して高さを調整
-          />
-        </Box>
-      )}
+
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "75ch" },
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <TextField
+          label="タイトル"
+          value="ここにタイトルが入る"
+          name="name"
+          variant="outlined"
+        />
+        <TextField
+          label="本文"
+          name="username"
+          value="ここに本文が入る"
+          variant="outlined"
+          multiline
+          rows={4} // 初期行数を指定して高さを調整
+        />
+      </Box>
     </Box>
   );
 };
@@ -277,7 +208,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/exam" element={<Exam />} />
-            <Route path="/posts/:id" element={<PostDetail />} />
+            <Route path="/posts" element={<PostDetail />} />
           </Routes>
         </Box>
       </Box>

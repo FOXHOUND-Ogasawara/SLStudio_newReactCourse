@@ -1,5 +1,4 @@
-import { Button, Paper } from "@mui/material";
-import { styled } from "@mui/material";
+import { Button, Paper, styled } from "@mui/material";
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
