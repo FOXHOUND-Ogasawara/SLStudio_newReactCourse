@@ -4,7 +4,7 @@ function App() {
   // 設問1
   // Bookオブジェクトの定義を行いなさい
   // 必要となるプロパティは以下とし、適切な型を設定すること
-  // title, publisher, author, price, pageNumber, category
+  // title, publisher, aut入hor, price, pageNumber, category
   type Book = {
     title: string;
     publisher: string;
@@ -18,7 +18,7 @@ function App() {
   // Book型のデータを管理する配列を定義しなさい
   // データは出力結果の画像を参考とすること
   // 各書籍のカテゴリーについては以下とする
-  // 初めてのプログラミング: 入門書、Reactを学ぶ絵本: 絵本
+  // 初めてのプログラミング: 門書、Reactを学ぶ絵本: 絵本
   // 参考書: パソコンはどうやって動いているのか？: 参考書、PC攻略本【完全版】: 実用書
   const Books: Book[] = [
     {
@@ -82,30 +82,21 @@ function App() {
         </thead>
         <tbody>
           {Books.map((book, index) => {
-            if (book.category === "入門書" || book.category === "参考書") {
-              return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{book.title}</td>
-                  <td>{book.publisher}</td>
-                  <td>{book.author}</td>
-                  <td>{book.price}</td>
-                  <td>{book.pageNumber}</td>
-                  <td>◎</td>
-                </tr>
-              );
-            } else {
-              return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{book.title}</td>
-                  <td>{book.publisher}</td>
-                  <td>{book.author}</td>
-                  <td>{book.price}</td>
-                  <td>{book.pageNumber}</td>
-                </tr>
-              );
-            }
+            return (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{book.title}</td>
+                <td>{book.publisher}</td>
+                <td>{book.author}</td>
+                <td>{book.price}</td>
+                <td>{book.pageNumber}</td>
+                <td>
+                  {book.category === "入門書" || book.category === "参考書"
+                    ? "◎"
+                    : ""}
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>

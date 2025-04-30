@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 const Quesion1 = () => {
@@ -24,18 +24,49 @@ const Quesion1 = () => {
   );
 };
 
+import { useState } from "react";
+
 const Quesion2 = () => {
+  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+
+  const updateTime = () => {
+    setCurrentTime(new Date().toLocaleTimeString());
+  };
+
   return (
     <Box>
       <Typography variant="h4">設問2</Typography>
       <Typography>
         ボタンを表示し、そのボタンを押した際に現在時刻が更新される仕組みを完成させなさい。
       </Typography>
+      <Typography sx={{ mt: 2 }}>現在時刻: {currentTime}</Typography>
+      <Button variant="contained" onClick={updateTime} sx={{ mt: 2 }}>
+        時刻を更新
+      </Button>
     </Box>
   );
 };
 
+import { useEffect } from "react";
+
 const Quesion3 = () => {
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const users = await response.json();
+        const filteredUsers = users.filter(user =>
+          ["Antonette", "Maxime_Nienow"].includes(user.username)
+        );
+        console.log("取得したユーザー:", filteredUsers);
+      } catch (error) {
+        console.error("ユーザー情報の取得に失敗しました:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <Box>
       <Typography variant="h4">設問3</Typography>
@@ -65,9 +96,9 @@ function App() {
               sx={{ width: "100%", justifyContent: "center", mt: 1 }}
             >
               <ButtonGroup variant="contained" sx={{ width: "100%" }}>
-                <Button className="menu">設問1</Button>
-                <Button className="menu">設問2</Button>
-                <Button className="menu">設問3</Button>
+                <Button className="menu" href="/">設問1</Button>
+                <Button className="menu" href="/question2">設問2</Button>
+                <Button className="menu" href="/question3">設問3</Button>
               </ButtonGroup>
             </Stack>
           </AppBar>
@@ -76,7 +107,11 @@ function App() {
             sx={{ flexGrow: 1, p: 3, bgcolor: "background.default" }}
           >
             <Toolbar />
-            <Quesion1 />
+            <Routes>
+              <Route path="/" element={<Quesion1 />} />
+              <Route path="/question2" element={<Quesion2 />} />
+              <Route path="/question3" element={<Quesion3 />} />
+            </Routes>
           </Box>
         </Box>
       </BrowserRouter>
