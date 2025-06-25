@@ -1,31 +1,31 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Assignment } from "@mui/icons-material";
 import {
   AppBar,
-  Toolbar,
-  Typography,
+  Box,
+  Card,
+  CardContent,
+  CssBaseline,
+  Divider,
   Drawer,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  CssBaseline,
-  Box,
-  Divider,
-  ListItemButton,
-  TableContainer,
   Paper,
   Table,
+  TableBody,
+  TableCell,
+  TableContainer,
   TableHead,
   TableRow,
-  TableCell,
-  TableBody,
   TextField,
-  Card,
-  CardContent,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import { Assignment } from "@mui/icons-material";
-import { GradientButton, OutlineButton, StyledPaper } from "./StyledComponents";
 import { useState } from "react";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { GradientButton, OutlineButton, StyledPaper } from "./StyledComponents";
 
 const drawerWidth = 240;
 
@@ -42,8 +42,7 @@ interface TextCopy {
   name?: string;
 }
 
-const TextCopyComponent = (props: TextCopy) => {
-  const { name } = props;
+const TextCopyComponent = ({ name }: TextCopy) => {
   return (
     <Typography variant="h5" component="div">
       {name}
